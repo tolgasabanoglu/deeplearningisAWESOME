@@ -1,0 +1,95 @@
+import tensorflow as tf
+import numpy as np
+from sklearn.model_selection import train_test_split
+
+def norm(a):
+    a_norm = a.astype(np.float32)
+    a_norm = a_norm / 10000
+    return a_norm
+
+def get_model_1d(class_num, learning_rate, filters_conv, kernel_size, filters_dense, dropout_rate=0.5):
+    model = tf.keras.Sequential([
+        tf.keras.layers.Conv1D(filters_conv, kernel_size=kernel_size, activation='relu', input_shape=(219, 1)),
+        tf.keras.layers.Conv1D(filters_conv, kernel_size=kernel_size, activation='relu'),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(filters_dense, activation='relu'),
+        tf.keras.layers.Dropout(dropout_rate),
+        tf.keras.layers.Dense(class_num, activation='linear')
+    ])
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+        loss='mean_absolute_error',
+        metrics=['mean_absolute_error']
+    )
+    return model
+
+def lr_scheduler(epoch, lr):
+    if epoch < 10:
+        return lr
+    else:
+        return lr * 0.1
+
+def grid_search_enmap(x_train, y_train, filters_conv_list, kernel_sizes, filters_dense_list, lr_list, batch_size, epochs, dropout_rate=0.5):
+    best_mae = float('inf')
+    best_model_sentinel = None
+
+    for filters_conv in filters_conv_list:
+        for kernel_size in kernel_sizes:
+            for filters_dense in filters_dense_list:
+                for lr in lr_list:
+                    model = get_model_1d(3, lr, filters_conv, kernel_size, filters_dense, dropout_rate)
+                
+                    early_stopping = tf.keras.callbacks.EarlyStopping(
+                        monitor='val_loss',
+                        patience=5,
+                        restore_best_weights=True
+                    )
+                    
+                    lr_schedule = tf.keras.callbacks.LearningRateScheduler(lr_scheduler)
+
+                    history = model.fit(
+                        x_train[..., np.newaxis], y_train,
+                        batch_size=batch_size,
+                        epochs=epochs,
+                        validation_split=0.2,
+                        callbacks=[early_stopping, lr_schedule],
+                        verbose=0
+                    )
+
+                    loss_val = min(history.history['val_loss'])
+                    print(f'Filters Conv: {filters_conv}, Kernel Size: {kernel_size}, Filters Dense: {filters_dense}, Learning Rate: {lr} - Best Validation Loss: {loss_val:.4f}')
+
+                    if loss_val < best_mae:
+                        best_mae = loss_val
+                        best_model_sentinel = model
+
+    print(f"Best Model Validation Loss: {best_mae}")
+
+    if best_model_sentinel is not None:
+        best_model_sentinel.save('/Users/tolgasabanoglu/Desktop/thesis_data/data/Saved_model/wet/1D_bestenmap')
+
+# Load data
+x_data = norm(np.load('/Users/tolgasabanoglu/Desktop/thesis_data/data/Mixed_spectral/wet/mixed_spectral_enmap.npy'))
+y_data = np.load('/Users/tolgasabanoglu/Desktop/thesis_data/data/Mixed_spectral/wet/label_enmap.npy')
+y_data = y_data.astype(np.float32)
+
+# Hyperparameters
+batch_size = 64
+epochs = 50
+filters_conv_list = [64]
+kernel_sizes = [3, 5, 7, 11]
+filters_dense_list = [64, 128, 256]
+lr_list = [1e-4, 1e-5]
+dropout_rate = 0.5
+
+# Perform grid search
+grid_search_enmap(x_data, y_data, filters_conv_list, kernel_sizes, filters_dense_list, lr_list, batch_size, epochs, dropout_rate)
+
+def post_process(predictions, threshold=0):
+    processed_predictions = np.where(predictions < threshold, np.nan, predictions)
+    return processed_predictions
+
+# Example usage of post-processing
+best_model = tf.keras.models.load_model('/Users/tolgasabanoglu/Desktop/thesis_data/data/Saved_model/wet/1D_bestenmap')
+predictions = best_model.predict(x_data[..., np.newaxis])
+processed_predictions = post_process(predictions)
