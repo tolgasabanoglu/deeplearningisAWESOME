@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 Practices of deep learning applications I applied in my master’s thesis and personal projects are demonstrated here. Savannah folder outlines the basic workflow, beginning with the extraction of endmembers from the satellite sensor, followed by synthetic training data creation and the application of 1D CNN model to generate a prediction map.FNN folder includes a different type of neural network approach, designed to estimate multiple consumer markets. This approach may use synthetic training data and incorporates feature engineering to create a dense, information-rich dataset for improved model performance.
-=======
-Savannas are essential, and accurate mapping is crucial for monitoring changes. This short script outlines the basic workflow, beginning with the extraction of endmembers from the satellite sensor. The next steps involve synthetic training data creation, followed by the application of deep learning models to generate a prediction map.
->>>>>>> origin/main
