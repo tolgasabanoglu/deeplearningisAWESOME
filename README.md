@@ -2,3 +2,4 @@ Practices of deep learning applications I applied in my master’s thesis and pe
 
 2026:
 - add experiments folder and understand, calculate, interpret the model architecture and interpret
+- add notes from the book 'why machines learn' 
