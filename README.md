@@ -11,7 +11,7 @@ Outlines the basic workflow for satellite image analysis:
 3. Application of 1D CNN model to generate prediction maps
 
 ### FNN (Feedforward Neural Network)
-A different type of neural network approach designed to estimate multiple consumer markets:
+A flexible neural network approach for various prediction tasks (consumer markets, Google APIs, etc.):
 - Uses synthetic training data
 - Incorporates feature engineering to create dense, information-rich datasets
 - Optimized for improved model performance
