@@ -4,6 +4,13 @@ Practices of deep learning applications I applied in my master's thesis and pers
 
 ## Projects
 
+### Experiments
+Manual implementations of neural networks from scratch (NumPy only):
+- **01_manual_fnn**: Feedforward Neural Network with backpropagation
+  - Complete mathematical explanations
+  - XOR problem demonstration
+  - No TensorFlow/PyTorch dependencies
+
 ### Savannah
 Outlines the basic workflow for satellite image analysis:
 1. Extraction of endmembers from the satellite sensor
