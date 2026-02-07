@@ -2,7 +2,7 @@
 
 A from-scratch implementation of a feedforward neural network using **only NumPy** - no TensorFlow, PyTorch, or Keras.
 
-## 🎯 Learning Objectives
+## Learning Objectives
 
 - Understand forward propagation step-by-step
 - Implement backpropagation from scratch
@@ -12,7 +12,7 @@ A from-scratch implementation of a feedforward neural network using **only NumPy
 
 ---
 
-## 📐 The Mathematics
+## The Mathematics
 
 ### 1. Forward Propagation
 
@@ -155,7 +155,7 @@ b_new = b_old - learning_rate * (∂L/∂b)
 
 ---
 
-## 🚀 Running the Code
+## Running the Code
 
 ### XOR Problem Example
 
@@ -189,7 +189,7 @@ Accuracy: 100.0%
 
 ---
 
-## 🧪 Understanding the XOR Problem
+## Understanding the XOR Problem
 
 XOR (Exclusive OR) is a non-linear problem that requires a hidden layer to solve:
 
@@ -214,7 +214,7 @@ The hidden layer creates intermediate representations:
 
 ---
 
-## 🔍 Code Structure
+## Code Structure
 
 ### `neural_network.py`
 - `Activation` class: Activation functions + derivatives
@@ -234,7 +234,7 @@ The hidden layer creates intermediate representations:
 
 ---
 
-## 📊 Weight Initialization: Why It Matters
+## Weight Initialization: Why It Matters
 
 **He Initialization** (used for ReLU):
 ```python
@@ -248,7 +248,7 @@ W = np.random.randn(n_in, n_out) * sqrt(2 / n_in)
 
 ---
 
-## 🎓 Key Takeaways
+## Key Takeaways
 
 1. **Forward pass**: Multiply by weights, add bias, apply activation
 2. **Backward pass**: Chain rule to compute gradients
@@ -258,7 +258,7 @@ W = np.random.randn(n_in, n_out) * sqrt(2 / n_in)
 
 ---
 
-## 🛠️ Extending This Implementation
+## Extending This Implementation
 
 **Ideas to try:**
 1. Add more activation functions (LeakyReLU, ELU, Swish)
@@ -271,7 +271,7 @@ W = np.random.randn(n_in, n_out) * sqrt(2 / n_in)
 
 ---
 
-## 📚 Further Reading
+## Further Reading
 
 - **Backpropagation**: [Calculus on Computational Graphs](http://colah.github.io/posts/2015-08-Backprop/)
 - **Activation Functions**: [CS231n Stanford](http://cs231n.github.io/neural-networks-1/)
@@ -280,13 +280,13 @@ W = np.random.randn(n_in, n_out) * sqrt(2 / n_in)
 
 ---
 
-## ✅ What You've Learned
+## What You've Learned
 
 By working through this implementation, you now understand:
-- ✅ How matrix multiplication creates connections between layers
-- ✅ Why activation functions are necessary
-- ✅ How backpropagation computes gradients using the chain rule
-- ✅ Why learning rate matters
-- ✅ How neural networks learn to solve non-linear problems
+- How matrix multiplication creates connections between layers
+- Why activation functions are necessary
+- How backpropagation computes gradients using the chain rule
+- Why learning rate matters
+- How neural networks learn to solve non-linear problems
 
 **No more black boxes!** You know exactly what happens inside a neural network.
